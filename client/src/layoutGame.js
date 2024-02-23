@@ -2,9 +2,12 @@ import React, { useEffect, useMemo, useRef, useState } from "react"
 import { StyleSheet, View, TouchableOpacity, Text, SafeAreaView, Dimensions, TextComponent } from "react-native"
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import { STYLE_BUTTONS, WIDTH_BUTTONS, HEIGHT_BUTTONS, SEQUENCES_WIN } from "./consts"
+import { STYLE_BUTTONS, WIDTH_BUTTONS, HEIGHT_BUTTONS, SEQUENCES_WIN, X, O } from "./consts"
 
 const LayoutGame = ({navigation, route}) => {
+  const socket = useRef(route.params.socket)
+  const symbol = useRef(X)
+
   const arrayRefs = useRef({})
   useEffect(() => {
     STYLE_BUTTONS.map((style, index) => {
@@ -22,8 +25,14 @@ const LayoutGame = ({navigation, route}) => {
 
   const [refresh, setRefresh] = useState(false)
   const clickedButtons = useRef([])
-  const currentPlayer = useRef(route.params.firstPlayer?.symbol == 'x' ? route.params.firstPlayer : route.params.secondPlayer)
+  const currentPlayer = useRef({})
   const arraySequence = useRef([])
+
+  useEffect(() => {
+    socket.on('return_player', player => {
+      currentPlayer = player
+    })
+  }, [])
 
   const renderButtons = () => {
     return(

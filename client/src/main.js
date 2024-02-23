@@ -2,19 +2,25 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, TextInput } fro
 import Player from "./class/player"
 import Bot from "./class/bot"
 import { io } from "socket.io-client"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Modal from "react-native-modal"
 
 const Main = ({navigation}) => {
+  const nicknameRef = useRef('')
   const [modalMultiplayer, setModalMultiplayer] = useState(false)
-
-  const socket = io('http://192.168.0.58:9000')
 
   const soloMode = () => {
     const player = new Player('fitizao', false, 'x')
     const bot = new Bot('BOT', true, 'o')
 
     navigation.navigate('LayoutGame', {firstPlayer: player, secondPlayer: bot})
+  }
+
+  const multiplayerMode = (nickname) => {
+    const socket = io('http://192.168.0.58:9000')
+
+    socket.emit('player', new Player(nickname, false))
+    navigation.navigate('LayoutGame', {socket: socket})
   }
 
   return(
@@ -39,11 +45,11 @@ const Main = ({navigation}) => {
           <View style={styles.modalMultiplayer}>
             <View style={{flex: 5.5, alignItems: 'center', justifyContent: 'center',}}>
               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, width: '85%'}}>NICKNAME</Text>
-              <TextInput style={styles.textInputModal} />
+              <TextInput onChangeText={(e) => {nicknameRef.current = e}} style={styles.textInputModal} />
             </View>
 
             <View style={{flex: 6.5, alignItems: 'center', justifyContent: 'center',}}>
-              <TouchableOpacity style={[styles.buttonSubmitModal, {backgroundColor: 'orange',}]}>
+              <TouchableOpacity style={[styles.buttonSubmitModal, {backgroundColor: 'orange',}]} onPress={() => {multiplayerMode(nicknameRef.current)}}>
                 <Text style={{fontWeight: 'bold', fontSize: 25}}>ENTRAR</Text>
               </TouchableOpacity>
 

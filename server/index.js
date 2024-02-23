@@ -16,8 +16,9 @@ io.on("connection", socket => {
 
   socket.on('player', player => {
     socket.data.player = player
-    console.log(socket.data.player)
   })
+
+  io.emit('return_player', socket.data.player)
 })
 
 http.listen(9000, () => console.log('Server running...'))

@@ -4,6 +4,9 @@ export const WIDTH_SCREEN = Dimensions.get('screen').width
 export const WIDTH_BUTTONS = (WIDTH_SCREEN / 3) - 15
 export const HEIGHT_BUTTONS = WIDTH_BUTTONS
 
+const X = 'x'
+const O = 'o'
+
 export const STYLE_BUTTONS = [
   {borderRightWidth: 5, borderBottomWidth: 5},
   {borderWidth: 5, borderTopWidth: 0},
