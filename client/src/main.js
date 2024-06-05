@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, TextInput } from "react-native"
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, TextInput, KeyboardAvoidingView } from "react-native"
 import Player from "./class/player"
 import Bot from "./class/bot"
 import { io } from "socket.io-client"
@@ -32,38 +32,34 @@ const Main = ({navigation}) => {
       <TouchableOpacity style={styles.buttons} onPress={() => {setModalMultiplayer(true)}}>
         <Text>MULTIPLAYER</Text>
       </TouchableOpacity>
-
-      {
-      modalMultiplayer && 
-        <Modal 
-          animationOutTiming={300} 
-          isVisible={modalMultiplayer} 
-          useNativeDriverForBackdrop 
-          useNativeDriver
-          style={{alignItems: 'center', justifyContent: 'center'}}
-        >
-          <View style={styles.modalMultiplayer}>
-            <View style={{flex: 5.5, alignItems: 'center', justifyContent: 'center',}}>
-              <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, width: '85%'}}>NICKNAME</Text>
-              <TextInput onChangeText={(e) => {nicknameRef.current = e}} style={styles.textInputModal} />
-            </View>
-
-            <View style={{flex: 6.5, alignItems: 'center', justifyContent: 'center',}}>
-              <TouchableOpacity style={[styles.buttonSubmitModal, {backgroundColor: 'orange',}]} onPress={() => {multiplayerMode(nicknameRef.current)}}>
-                <Text style={{fontWeight: 'bold', fontSize: 25}}>ENTRAR</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity 
-                style={[styles.buttonSubmitModal, {backgroundColor: '#EE5545'}]}
-                onPress={() => {setModalMultiplayer(false)}}
-              >
-                <Text style={{fontWeight: 'bold', fontSize: 25}}>CANCELAR</Text>
-              </TouchableOpacity>
-            </View>
+      <Modal 
+        animationOutTiming={300} 
+        isVisible={modalMultiplayer} 
+        useNativeDriverForBackdrop 
+        useNativeDriver
+        style={{alignItems: 'center', justifyContent: 'center'}}
+      >
+        <View style={styles.modalMultiplayer}>
+          <View style={{flex: 6.5, alignItems: 'center', paddingTop: 30}}>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20, width: '85%'}}>NICKNAME</Text>
+            <TextInput onChangeText={(e) => {nicknameRef.current = e}} style={styles.textInputModal} />
           </View>
-        </Modal>
-        
-      }
+
+          <View style={{flex: 6, alignItems: 'center', justifyContent: 'center',}}>
+            <TouchableOpacity 
+              style={[styles.buttonSubmitModal, {backgroundColor: 'orange',}]} onPress={() => {multiplayerMode(nicknameRef.current)}}
+            >
+              <Text style={{fontWeight: 'bold', fontSize: 25}}>ENTRAR</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.buttonSubmitModal, {backgroundColor: '#EE5545'}]} onPress={() => {setModalMultiplayer(false)}}
+            >
+              <Text style={{fontWeight: 'bold', fontSize: 25}}>CANCELAR</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   )
 }
@@ -89,7 +85,7 @@ const styles = StyleSheet.create({
 
   modalMultiplayer: {
     width: '95%',
-    height: '40%',
+    height: '55%',
     borderRadius: 15,
     backgroundColor: '#454E56',
     elevation: 12

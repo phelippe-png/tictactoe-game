@@ -34,6 +34,8 @@ const LayoutGame = ({navigation, route}) => {
     })
   }, [])
 
+  console.log(currentPlayer)
+
   const renderButtons = () => {
     return(
       <View style={{flex: 1}}>
